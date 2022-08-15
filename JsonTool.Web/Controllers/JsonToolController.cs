@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using JsonTool.Controllers.Inputs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -16,10 +17,10 @@ public class JsonToolController : ControllerBase
     }
 
     [HttpPost(Name = "ConvertToCamel")]
-    public string ConvertToCamel(string json)
+    public string ConvertToCamel(ConvertToCamelInputs inputs)
     {
         JTokenWriter writer = new JTokenWriter();
-        var jToken= JToken.Parse(json);
+        var jToken= JToken.Parse(inputs.JsonStr);
 
         ProcessJson(jToken,writer);
 
