@@ -15,17 +15,15 @@ public class JsonToolController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost(Name = "ConvetToCamel")]
-    public string ConvetToCamel(string json)
+    [HttpPost(Name = "ConvertToCamel")]
+    public string ConvertToCamel(string json)
     {
-        var result= string.Empty;
-
         JTokenWriter writer = new JTokenWriter();
         var jToken= JToken.Parse(json);
 
         ProcessJson(jToken,writer);
 
-        result=writer.Token!.ToString();
+        var result = writer.Token!.ToString();
 
         return result;
     }
