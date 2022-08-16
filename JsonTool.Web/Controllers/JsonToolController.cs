@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using JsonTool.Controllers.Inputs;
+using JsonTool.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
@@ -27,6 +28,17 @@ public class JsonToolController : ControllerBase
         var result = writer.Token!.ToString();
 
         return result;
+    }
+    
+    [HttpPost(Name = "QueryRedisValue")]
+    public IActionResult QueryRedisValue()
+    {
+        var value = RedisManager.Instance.HashGet(
+            "c:EcommerceCloud.ApiClient.Filters.ParkApiActionFilter+ParkTokenInfo,k:ParkTokenCacheKay", "data");
+
+        var jObject = JObject.Parse(value!);
+
+        return Ok(new { token = jObject["token"]!.Value<string>()});
     }
 
     private void ProcessJson(JToken jToken, JTokenWriter writer){

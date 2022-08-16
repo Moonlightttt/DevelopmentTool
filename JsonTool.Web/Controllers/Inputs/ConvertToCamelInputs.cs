@@ -2,5 +2,5 @@
 
 public class ConvertToCamelInputs
 {
-    public string JsonStr { get; set; }
+    public string? JsonStr { get; set; }
 }
