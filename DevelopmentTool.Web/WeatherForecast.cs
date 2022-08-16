@@ -1,4 +1,4 @@
-namespace JsonTool;
+namespace DevelopmentTool;
 
 public class WeatherForecast
 {

@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
-using JsonTool.Controllers.Inputs;
-using JsonTool.Helper;
+using DevelopmentTool.Controllers.Inputs;
+using DevelopmentTool.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
-namespace JsonTool.Controllers;
+namespace DevelopmentTool.Controllers;
 
 [ApiController]
 [Route("[controller]/[Action]")]
@@ -21,7 +21,7 @@ public class JsonToolController : ControllerBase
     public string ConvertToCamel(ConvertToCamelInputs inputs)
     {
         JTokenWriter writer = new JTokenWriter();
-        var jToken= JToken.Parse(inputs.JsonStr);
+        var jToken= JToken.Parse(inputs.JsonStr!);
 
         ProcessJson(jToken,writer);
 

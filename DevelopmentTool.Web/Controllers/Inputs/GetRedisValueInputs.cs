@@ -1,4 +1,4 @@
-﻿namespace JsonTool.Controllers.Inputs;
+﻿namespace DevelopmentTool.Controllers.Inputs;
 
 public class QueryRedisValueInputs
 {

@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace JsonTool.Helper;
+namespace DevelopmentTool.Helper;
 
 public static class RedisManager
 {
