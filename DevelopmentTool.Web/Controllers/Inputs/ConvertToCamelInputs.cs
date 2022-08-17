@@ -1,5 +1,8 @@
 ﻿namespace DevelopmentTool.Controllers.Inputs;
 
+/// <summary>
+/// 转换Camel
+/// </summary>
 public class ConvertToCamelInputs
 {
     /// <summary>

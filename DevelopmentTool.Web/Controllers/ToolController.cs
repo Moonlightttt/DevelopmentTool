@@ -6,12 +6,22 @@ using Newtonsoft.Json.Linq;
 
 namespace DevelopmentTool.Controllers;
 
+/// <summary>
+/// 工具集
+/// </summary>
 [ApiController]
 [Route("[controller]/[Action]")]
 public class ToolController : ControllerBase
 {
+    /// <summary>
+    /// 日志
+    /// </summary>
     private readonly ILogger<ToolController> _logger;
 
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="logger"></param>
     public ToolController(ILogger<ToolController> logger)
     {
         _logger = logger;

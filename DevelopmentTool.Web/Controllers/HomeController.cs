@@ -8,6 +8,10 @@ namespace DevelopmentTool.Controllers;
 public class HomeController : Controller
 {
     // GET
+    /// <summary>
+    /// 首页跳转
+    /// </summary>
+    /// <returns></returns>
     public IActionResult Index()
     {
         return Redirect("swagger");
