@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
-using DevelopmentTool.Controllers.Inputs;
-using DevelopmentTool.Helper;
+using DevelopmentTool.Web.Controllers.Inputs;
+using DevelopmentTool.Web.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 
-namespace DevelopmentTool.Controllers;
+namespace DevelopmentTool.Web.Controllers;
 
 /// <summary>
 /// 工具集
@@ -35,16 +35,17 @@ public class ToolController : ControllerBase
     [HttpPost(Name = "ConvertToCamel")]
     public string ConvertToCamel(ConvertToCamelInputs inputs)
     {
+        _logger.LogInformation($"Json转换请求：{inputs.JsonStr}");
         JTokenWriter writer = new JTokenWriter();
-        var jToken= JToken.Parse(inputs.JsonStr!);
+        var jToken = JToken.Parse(inputs.JsonStr!);
 
-        ProcessJson(jToken,writer);
+        ProcessJson(jToken, writer);
 
         var result = writer.Token!.ToString();
-
+        _logger.LogInformation($"Json转换响应：{inputs.JsonStr}");
         return result;
     }
-    
+
     /// <summary>
     /// 查询Token
     /// </summary>
@@ -56,38 +57,43 @@ public class ToolController : ControllerBase
             "c:EcommerceCloud.ApiClient.Filters.ParkApiActionFilter+ParkTokenInfo,k:ParkTokenCacheKay", "data");
 
         var jObject = JObject.Parse(value!);
+        
+         _logger.LogInformation($"获取Redis值：{jObject}");
 
-        return Ok(new { token = jObject["token"]!.Value<string>()});
+        return Ok(new { token = jObject["token"]!.Value<string>() });
     }
 
-    private void ProcessJson(JToken jToken, JTokenWriter writer){
+    private void ProcessJson(JToken jToken, JTokenWriter writer)
+    {
         switch (jToken)
         {
             case JArray a:
                 writer.WriteStartArray();
                 foreach (var item in a)
                 {
-                    ProcessJson(item,writer);
+                    ProcessJson(item, writer);
                 }
+
                 writer.WriteEndArray();
                 break;
             case JObject o:
                 writer.WriteStartObject();
                 foreach (var item in o.Children())
                 {
-                    ProcessJson(item,writer);
+                    ProcessJson(item, writer);
                 }
+
                 writer.WriteEndObject();
                 break;
             case JProperty p:
-                var firstChar= p.Name[0];
-                var pName =Regex.Replace(p.Name,"^[A-Za-z]",firstChar.ToString().ToLower());
+                var firstChar = p.Name[0];
+                var pName = Regex.Replace(p.Name, "^[A-Za-z]", firstChar.ToString().ToLower());
                 writer.WritePropertyName(pName);
-                ProcessJson(p.Value,writer);
+                ProcessJson(p.Value, writer);
                 break;
             case JValue p:
                 writer.WriteValue(p.Value);
-                break;             
+                break;
             default:
                 throw new Exception("未处理异常");
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace DevelopmentTool.Controllers;
+namespace DevelopmentTool.Web.Controllers;
 
 /// <summary>
 /// 首页

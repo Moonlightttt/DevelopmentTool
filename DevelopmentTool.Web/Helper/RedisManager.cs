@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 
-namespace DevelopmentTool.Helper;
+namespace DevelopmentTool.Web.Helper;
 
 /// <summary>
 /// redis连接类

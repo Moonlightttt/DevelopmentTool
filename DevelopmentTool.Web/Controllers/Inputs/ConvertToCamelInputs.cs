@@ -1,4 +1,4 @@
-﻿namespace DevelopmentTool.Controllers.Inputs;
+﻿namespace DevelopmentTool.Web.Controllers.Inputs;
 
 /// <summary>
 /// 转换Camel
