@@ -8,15 +8,20 @@ namespace DevelopmentTool.Controllers;
 
 [ApiController]
 [Route("[controller]/[Action]")]
-public class JsonToolController : ControllerBase
+public class ToolController : ControllerBase
 {
-    private readonly ILogger<JsonToolController> _logger;
+    private readonly ILogger<ToolController> _logger;
 
-    public JsonToolController(ILogger<JsonToolController> logger)
+    public ToolController(ILogger<ToolController> logger)
     {
         _logger = logger;
     }
 
+    /// <summary>
+    /// json属性名转换Camel格式
+    /// </summary>
+    /// <param name="inputs"></param>
+    /// <returns></returns>
     [HttpPost(Name = "ConvertToCamel")]
     public string ConvertToCamel(ConvertToCamelInputs inputs)
     {
@@ -30,6 +35,10 @@ public class JsonToolController : ControllerBase
         return result;
     }
     
+    /// <summary>
+    /// 查询Token
+    /// </summary>
+    /// <returns></returns>
     [HttpPost(Name = "QueryRedisValue")]
     public IActionResult QueryRedisValue()
     {

@@ -4,6 +4,12 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+	  <DocumentationFile>bin\Debug\DevelopmentTool.xml</DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+	  <DocumentationFile>bin\Release\DevelopmentTool.xml</DocumentationFile>
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="StackExchange.Redis" Version="2.6.48" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
