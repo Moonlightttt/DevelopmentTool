@@ -1,7 +1,8 @@
+using System.Text;
 using System.Text.RegularExpressions;
 using DevelopmentTool.Web.Controllers.Inputs;
-using DevelopmentTool.Web.Helper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json.Linq;
 
 namespace DevelopmentTool.Web.Controllers;
@@ -19,12 +20,20 @@ public class ToolController : ControllerBase
     private readonly ILogger<ToolController> _logger;
 
     /// <summary>
+    /// 缓存
+    /// </summary>
+    private readonly IDistributedCache _distributedCache;
+
+    /// <summary>
     /// 构造函数
     /// </summary>
     /// <param name="logger"></param>
-    public ToolController(ILogger<ToolController> logger)
+    /// <param name="distributedCache"></param>
+    public ToolController(ILogger<ToolController> logger,
+        IDistributedCache distributedCache)
     {
         _logger = logger;
+        _distributedCache = distributedCache;
     }
 
     /// <summary>
@@ -51,14 +60,16 @@ public class ToolController : ControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpPost(Name = "QueryRedisValue")]
-    public IActionResult QueryRedisValue()
+    public async Task<IActionResult> QueryRedisValueAsync()
     {
-        var value = RedisManager.Instance.HashGet(
-            "c:EcommerceCloud.ApiClient.Filters.ParkApiActionFilter+ParkTokenInfo,k:ParkTokenCacheKay", "data");
+        var bytes = await _distributedCache.GetAsync(
+            "c:EcommerceCloud.ApiClient.Filters.ParkApiActionFilter+ParkTokenInfo,k:ParkTokenCacheKay");
 
-        var jObject = JObject.Parse(value!);
-        
-         _logger.LogInformation($"获取Redis值：{jObject}");
+        var json = Encoding.Default.GetString(bytes!);
+
+        var jObject = JObject.Parse(json!);
+
+        _logger.LogInformation($"获取Redis值：{jObject}");
 
         return Ok(new { token = jObject["token"]!.Value<string>() });
     }

@@ -18,10 +18,10 @@ try
     Log.Information("Starting web host");
     var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+    // Add services to the container.
 
     builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(options =>
     {
@@ -37,8 +37,13 @@ try
                 options.IncludeXmlComments(docPath, true);
         }
     });
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = builder.Configuration.GetConnectionString("Redis");
+        //options.InstanceName = "SampleInstance";
+    });
 
-// 使用日志
+    // 使用日志
     builder.Host.UseSerilog((context, logger) =>
     {
         logger.ReadFrom.Configuration(context.Configuration);
@@ -47,7 +52,7 @@ try
 
     var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+    // Configure the HTTP request pipeline.
     app.UseSwagger();
     app.UseSwaggerUI();
 
