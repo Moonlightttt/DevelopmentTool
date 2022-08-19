@@ -35,4 +35,7 @@
 	<ItemGroup>
 	  <Content Remove="Logs\**" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\DevelopmentTool\DevelopmentTool.csproj" />
+	</ItemGroup>
 </Project>

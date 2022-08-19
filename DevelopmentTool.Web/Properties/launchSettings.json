@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "JsonTool": {
+    "DevelopmentTool.Web": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
@@ -17,6 +17,17 @@
       "applicationUrl": "https://localhost:7290;http://localhost:5058",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "JM": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7290;http://localhost:5058",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__Redis": "10.130.0.126:1379,password=1qaz#EDC4rfv^YHN, abortConnect=false, defaultDatabase=13"
       }
     },
     "IIS Express": {

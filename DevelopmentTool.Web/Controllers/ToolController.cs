@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
+using DevelopmentTool.Extensions;
 using DevelopmentTool.Web.Controllers.Inputs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
@@ -62,16 +63,14 @@ public class ToolController : ControllerBase
     [HttpPost(Name = "QueryRedisValue")]
     public async Task<IActionResult> QueryRedisValueAsync()
     {
-        var bytes = await _distributedCache.GetAsync(
+        var result = await _distributedCache.GetValueAsync<dynamic>(
             "c:EcommerceCloud.ApiClient.Filters.ParkApiActionFilter+ParkTokenInfo,k:ParkTokenCacheKay");
 
-        var json = Encoding.Default.GetString(bytes!);
+        _logger.LogInformation($"获取Redis值：{result}");
 
-        var jObject = JObject.Parse(json!);
+        var data = result as JObject;
 
-        _logger.LogInformation($"获取Redis值：{jObject}");
-
-        return Ok(new { token = jObject["token"]!.Value<string>() });
+        return Ok(new { token = data?["token"]!.Value<string>() });
     }
 
     private void ProcessJson(JToken jToken, JTokenWriter writer)
