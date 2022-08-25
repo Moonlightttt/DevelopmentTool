@@ -40,19 +40,26 @@ public class ToolController : ControllerBase
     /// <summary>
     /// json属性名转换Camel格式
     /// </summary>
-    /// <param name="inputs"></param>
+    /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost(Name = "ConvertToCamel")]
-    public string ConvertToCamel(ConvertToCamelInputs inputs)
+    public string ConvertToCamel(ConvertToCamelInputs input)
     {
-        _logger.LogInformation($"Json转换请求：{inputs.JsonStr}");
+        _logger.LogInformation($"Json转换请求：{input.JsonStr}");
+
+        if (string.IsNullOrWhiteSpace(input.JsonStr))
+        {
+            _logger.LogInformation($"Json转换请求：转换json为空");
+            return string.Empty;
+        }
+        
         JTokenWriter writer = new JTokenWriter();
-        var jToken = JToken.Parse(inputs.JsonStr!);
+        var jToken = JToken.Parse(input.JsonStr!);
 
         ProcessJson(jToken, writer);
 
         var result = writer.Token!.ToString();
-        _logger.LogInformation($"Json转换响应：{inputs.JsonStr}");
+        _logger.LogInformation($"Json转换响应：{input.JsonStr}");
         return result;
     }
 
