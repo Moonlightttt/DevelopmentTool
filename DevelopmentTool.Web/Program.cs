@@ -43,6 +43,17 @@ try
         //options.InstanceName = "SampleInstance";
     });
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AnyOrigin", policy =>
+        {
+            policy.AllowAnyOrigin() //允许任何来源的主机访问
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+                //.AllowCredentials(); //指定处理cookie
+        });
+    });
+
     // 使用日志
     builder.Host.UseSerilog((context, logger) =>
     {
@@ -55,6 +66,8 @@ try
     // Configure the HTTP request pipeline.
     app.UseSwagger();
     app.UseSwaggerUI();
+    
+    app.UseCors("AnyOrigin");
 
     app.UseHttpsRedirection();
 
