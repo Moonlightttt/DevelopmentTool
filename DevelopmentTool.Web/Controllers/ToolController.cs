@@ -52,15 +52,23 @@ public class ToolController : ControllerBase
             _logger.LogInformation($"Json转换请求：转换json为空");
             return string.Empty;
         }
-        
-        JTokenWriter writer = new JTokenWriter();
-        var jToken = JToken.Parse(input.JsonStr!);
 
-        ProcessJson(jToken, writer);
+        try
+        {
+            JTokenWriter writer = new JTokenWriter();
+            var jToken = JToken.Parse(input.JsonStr!);
 
-        var result = writer.Token!.ToString();
-        _logger.LogInformation($"Json转换响应：{input.JsonStr}");
-        return result;
+            ProcessJson(jToken, writer);
+
+            var result = writer.Token!.ToString();
+            _logger.LogInformation($"Json转换响应：{input.JsonStr}");
+            return result;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError($"Json转换响应异常：{e}");
+            return "Json处理异常";
+        }
     }
 
     /// <summary>
