@@ -88,6 +88,14 @@ public class ToolController : ControllerBase
         return Ok(new { token = data?["token"]!.Value<string>() });
     }
 
+    [HttpPost(Name = "ByteArrayToFile")]
+    public async Task<IActionResult> ByteArrayToFile(ByteArrayToFileInput input)
+    {
+        var bytes = System.Convert.FromBase64String(input.Content);
+
+        return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet","test.xlsx");
+    }
+
     private void ProcessJson(JToken jToken, JTokenWriter writer)
     {
         switch (jToken)
@@ -122,5 +130,20 @@ public class ToolController : ControllerBase
             default:
                 throw new Exception("未处理异常");
         }
+    }
+    
+            
+    private void ByteToFile(byte[] fileData)
+    {
+        string fileName = DateTime.Now.ToString("yyyyMMddhhmmss") + ".xlsx";
+        string dirPath = @"G:\TestFileTransformation\";
+
+        if (!Directory.Exists(dirPath))
+            Directory.CreateDirectory(dirPath);
+
+        string filePath = Path.Combine(dirPath, fileName);
+        FileStream fileStream = new(filePath, FileMode.Create);
+        fileStream.Write(fileData, 0, fileData.Length);
+        fileStream.Close();
     }
 }
