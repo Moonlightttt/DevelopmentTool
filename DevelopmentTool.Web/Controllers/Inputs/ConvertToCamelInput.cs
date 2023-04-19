@@ -3,7 +3,7 @@
 /// <summary>
 /// 转换Camel
 /// </summary>
-public class ConvertToCamelInputs
+public class ConvertToCamelInput
 {
     /// <summary>
     /// json字符串

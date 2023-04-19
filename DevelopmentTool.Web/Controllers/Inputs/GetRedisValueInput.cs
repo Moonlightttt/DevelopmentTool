@@ -3,7 +3,7 @@
 /// <summary>
 /// 查询redis
 /// </summary>
-public class QueryRedisValueInputs
+public class QueryRedisValueInput
 {
     /// <summary>
     /// 键名
