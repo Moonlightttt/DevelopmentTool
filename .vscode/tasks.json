@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/JsonTool.Web/JsonTool.csproj",
+                "${workspaceFolder}/DevelopmentTool.Web/DevelopmentTool.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/JsonTool.Web/JsonTool.csproj",
+                "${workspaceFolder}/DevelopmentTool.Web/DevelopmentTool.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/JsonTool.Web/JsonTool.csproj"
+                "${workspaceFolder}/DevelopmentTool.Web/DevelopmentTool.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
