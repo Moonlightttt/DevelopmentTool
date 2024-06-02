@@ -15,7 +15,7 @@ namespace DevelopmentTool.Web.Controllers;
 /// 工具集
 /// </summary>
 [ApiController]
-[Route("[controller]/[Action]")]
+[Route("tool/[Action]")]
 public class ToolController : ControllerBase
 {
     /// <summary>
