@@ -79,6 +79,8 @@ try
         name: "default",
         pattern: "{controller=Home}/{action=Index}");
 
+    app.MapGet("tool/current-system-time", () => DateTime.UtcNow);
+
     app.Run();
     return 0;
 }
