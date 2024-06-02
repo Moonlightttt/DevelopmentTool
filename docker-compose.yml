@@ -4,12 +4,17 @@ version: '3.4'
 
 services:
   developmenttoolweb:
+    depends_on:
+      - redis
     image: developmenttoolweb
     build:
       context: .
       dockerfile: src/DevelopmentTool.Web/Dockerfile
     ports:
       - 4701:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__Redis=redis:6379, abortConnect=false, defaultDatabase=0
   redis:
     image: redis:latest
     restart: always
