@@ -73,14 +73,13 @@ public class ToolController : ControllerBase
     [HttpPost(Name = "QueryRedisValue")]
     public async Task<IActionResult> QueryRedisValueAsync()
     {
-        var result = await _distributedCache.GetValueAsync<dynamic>(
-            "c:EcommerceCloud.ApiClient.Filters.ParkApiActionFilter+ParkTokenInfo,k:ParkTokenCacheKay");
+        // await _distributedCache.SetStringAsync("test", "hello");
 
-        _logger.LogInformation($"获取Redis值：{result}");
+        var result = await _distributedCache.GetStringAsync("test");
 
-        var data = result as JObject;
+        _logger.LogInformation("获取Redis值：{result}",result);
 
-        return Ok(new { token = data?["token"]!.Value<string>() });
+        return Ok(new { city = result });
     }
 
     /// <summary>
