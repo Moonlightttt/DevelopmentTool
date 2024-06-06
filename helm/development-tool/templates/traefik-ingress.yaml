@@ -1,0 +1,37 @@
+{{- if .Values.traefikIngress.enabled -}}
+{{- $fullName := include "development-tool.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ $fullName }}-ingress-route
+  namespace: {{ .Release.Namespace }}
+spec:
+  # entryPoints:
+  #   - websecure
+  routes:
+    - kind: Rule
+      match: PathPrefix(`/development`)
+      priority: 11
+      services:
+        - name: {{ $fullName }}
+          port: {{ $svcPort }}
+      middlewares:
+        - name: {{ $fullName }}-strip-prefix
+  # tls:
+  #   certResolver: default
+
+---
+# Strip prefix /foobar and /fiibar
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: {{ $fullName }}-strip-prefix
+  namespace: {{ .Release.Namespace }}
+spec:
+  stripPrefix:
+    prefixes:
+      - /development
+
+{{ end }}
