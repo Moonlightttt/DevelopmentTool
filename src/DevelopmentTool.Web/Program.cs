@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 
@@ -52,7 +53,7 @@ try
             policy.AllowAnyOrigin() //允许任何来源的主机访问
                 .AllowAnyMethod()
                 .AllowAnyHeader();
-                //.AllowCredentials(); //指定处理cookie
+            //.AllowCredentials(); //指定处理cookie
         });
     });
 
@@ -68,9 +69,18 @@ try
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
-    app.UseSwagger();
+    app.UseSwagger(option =>
+    {
+        option.PreSerializeFilters.Add((doc, req) =>
+        {
+            var host = req.Headers["Referer"].ToString()?.Replace("swagger/index.html", "");
+
+            doc.Servers = new List<OpenApiServer> { new OpenApiServer { Url = host } };
+        });
+    });
+
     app.UseSwaggerUI();
-    
+
     app.UseCors("AnyOrigin");
 
     app.UseHttpsRedirection();
