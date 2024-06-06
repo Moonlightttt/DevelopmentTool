@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using Serilog.Events;
 
@@ -54,6 +56,8 @@ try
         });
     });
 
+    builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
     // 使用日志
     builder.Host.UseSerilog((context, logger) =>
     {
@@ -80,6 +84,16 @@ try
         pattern: "{controller=Home}/{action=Index}");
 
     app.MapGet("tool/current-system-time", () => DateTime.UtcNow);
+
+    app.MapGet("tool/request-information", ([FromServices] IHttpContextAccessor httpContextAccessor) =>
+    {
+        var request = httpContextAccessor.HttpContext!.Request;
+        return new
+        {
+            header = request.Headers,
+            path = $"{request.Host}{request.Path}"
+        };
+    });
 
     app.Run();
     return 0;

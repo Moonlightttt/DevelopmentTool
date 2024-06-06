@@ -45,7 +45,7 @@ service:
   targetPort: 80
 
 ingress:
-  enabled: true
+  enabled: false
   ignoreHost: true
   className: ""
   annotations: {}
